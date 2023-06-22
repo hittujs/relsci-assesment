@@ -1,5 +1,11 @@
-function App() {
-  return <div className="App">Reusable Calender Component</div>;
-}
+import Calender from "./components/Calender";
+
+const App = () => {
+  return (
+    <div className="App">
+      <Calender />
+    </div>
+  );
+};
 
 export default App;
