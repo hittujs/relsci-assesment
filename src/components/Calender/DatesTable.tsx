@@ -5,19 +5,20 @@ import { daysOfWeek } from "./utils";
 
 interface Props {
   date: Date;
-  numRows: number;
-  numCols?: number;
 }
 
-export const Table: FC<Props> = ({ date, numRows, numCols = 7 }) => {
-  const { getNumberOfDaysInMonth, getFirstDayIndex } = useCalenderDates(date);
-  
+export const DatesTable: FC<Props> = ({ date }) => {
+  const { getNumberOfDaysInMonth, getFirstDayIndex, getMonthAndYear } =
+    useCalenderDates(date);
+
   const firstDay = getFirstDayIndex();
   const numberOfDaysInMonth = getNumberOfDaysInMonth();
+  const numCols = 7;
+  const numRows = Math.ceil(numberOfDaysInMonth / numCols);
   const givenDate = date.getDate();
 
   const printDate = (rowIndex: number, colIndex: number) => {
-    const value = 7 * rowIndex + colIndex + 1 - firstDay;
+    const value = numCols * rowIndex + colIndex + 1 - firstDay;
     if (value > 0 && value <= numberOfDaysInMonth) {
       return value;
     }
@@ -55,9 +56,13 @@ export const Table: FC<Props> = ({ date, numRows, numCols = 7 }) => {
   };
 
   return (
-    <table className="table">
-      <thead>{renderTableHeader()}</thead>
-      <tbody>{renderTableRows()}</tbody>
-    </table>
+    <div className="date-container">
+      <span className="calender-heading">{getMonthAndYear()}</span>
+
+      <table className="table" data-testid="calender-dates-table">
+        <thead>{renderTableHeader()}</thead>
+        <tbody>{renderTableRows()}</tbody>
+      </table>
+    </div>
   );
 };

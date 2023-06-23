@@ -1,21 +1,16 @@
 import { FC } from "react";
 import "./styles.css";
-import { Table } from "./table";
-import { useCalenderDates } from "./hooks";
+import { DatesTable } from "./DatesTable";
+import React from "react";
 
 interface Props {
   date?: Date;
 }
 
-const Calender: FC<Props> = ({ date = new Date() }) => {
-  const { getMonthAndYear } = useCalenderDates(date);
-
+export const Calender: FC<Props> = React.memo(({ date = new Date() }) => {
   return (
-    <div className="date-container">
-      <span className="calender-heading">{getMonthAndYear()}</span>
-      <Table numRows={5} date={date} />
+    <div data-testid="calender-container">
+      <DatesTable date={date} />
     </div>
   );
-};
-
-export default Calender;
+});
